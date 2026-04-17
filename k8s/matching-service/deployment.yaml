@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matching-service-deployment
+  labels:
+    app: matching-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matching-service
+  template:
+    metadata:
+      labels:
+        app: matching-service
+    spec:
+      containers:
+      - name: matching-service
+        image: myapp/matching-service:latest
+        imagePullPolicy: Never  # Ensures Minikube uses the local Docker image
+        env:
+        - name: REDIS_HOST
+          value: "redis" # Points to the redis K8s Service
+        - name: REDIS_PORT
+          value: "6379"

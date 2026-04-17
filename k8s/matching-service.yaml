@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matching-service
+  labels:
+    app: matching-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matching-service
+  template:
+    metadata:
+      labels:
+        app: matching-service
+    spec:
+      containers:
+      - name: matching-service
+        # We will use the locally built image inside minikube's Docker cache
+        image: matching-service:latest
+        imagePullPolicy: Never
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: PYTHONUNBUFFERED
+          value: "1"
