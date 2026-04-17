@@ -34,7 +34,14 @@ jobs:
         pytest ride_service/tests/
         pytest matching_service/tests/
 
-    # 2. Build Docker Images
+    # 2. Code Quality & Security Scanning (SonarQube)
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+    # 3. Build Docker Images
     - name: Build Ride Service Image
       run: docker build -t myapp/ride-service:latest ./ride_service
 
