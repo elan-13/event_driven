@@ -49,13 +49,13 @@ async def book_ride(request: RideRequest):
     }
 
     # Publish to Redis
+    if not redis_client:
+        raise HTTPException(status_code=500, detail="Redis client is not connected.")
+
     try:
-        if redis_client:
-            # Convert dictionary to JSON string to publish
-            redis_client.publish(REDIS_CHANNEL, json.dumps(ride_event))
-            print(f"Published ride request to channel '{REDIS_CHANNEL}': {ride_id}")
-        else:
-            raise HTTPException(status_code=500, detail="Redis client is not connected.")
+        # Convert dictionary to JSON string to publish
+        redis_client.publish(REDIS_CHANNEL, json.dumps(ride_event))
+        print(f"Published ride request to channel '{REDIS_CHANNEL}': {ride_id}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to publish event: {str(e)}")
 
