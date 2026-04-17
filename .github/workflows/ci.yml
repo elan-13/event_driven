@@ -39,7 +39,7 @@ jobs:
       uses: SonarSource/sonarqube-scan-action@master
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        SONAR_HOST_URL: https://localhost:9000
 
     # 3. Build Docker Images
     - name: Build Ride Service Image
